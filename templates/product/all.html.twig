@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <a href="{{ url("product.add") }}">Ajouter une annonce</a>
+    </br>
+    <a href={{ path('logout') }}>Logout</a>
+
+    <table class="table">
+        <tr>
+            <th>Photo</th>
+            <th>Nom</th>
+            <th>Sortie le</th>
+            <th>Action</th>
+        </tr>
+        {% for product in products %}
+            <tr>
+                <td><img width="150" src="\uploads\brochures\{{ product.pics }}"/></td>
+                <td>{{ product.title }}</td>
+                <td>{{ product.releaseOn|date }}</td>
+                <td>
+                    <a onclick="return confirm('Confirmez vous la suppression?');" href="{{ url("product.delete", {"product":product.id}) }}">Supprimer</a>
+                    <br/>
+                    <a onclick="return confrim('Voulez vous voir ce produit?');" href="{{ url("product.show", {"product": product.id}) }}">Voir ce produit</a>
+                    <br/>
+                    <a onclick="return confrim('Vouez vous modifier ce produit?');" href="{{ url("product.update", {"product": product.id}) }}">Modifier ce produit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No content available</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,11 @@
+
+{% extends "base.html.twig" %}
+{% block body %}
+    <a href={{ path('logout') }}>Logout</a>
+
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+    {{ form(form) }}
+
+
+{% endblock %}

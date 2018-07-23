@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <a href="{{ url("product.all") }}">Retour</a>
+    </br>
+    <a href={{ path('logout') }}>Logout</a>
+
+    <table class="table">
+        <tr>
+            <th>Nom</th>
+            <th>Sortie le</th>
+        </tr>
+        <tr>
+            <td>{{ product.title }}</td>
+            <td>{{ product.releaseOn|date }}</td>
+
+        </tr>
+    </table>
+{% endblock %}
