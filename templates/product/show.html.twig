@@ -1,18 +1,33 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <a href="{{ url("product.all") }}">Retour</a>
-    </br>
-    <a href={{ path('logout') }}>Logout</a>
+    <div class="container">
+        <div class="row">
+            <a class="col-sm" href={{ path('logout') }}>Logout</a>
+            <a class="col-sm" href="{{ url("product.all") }}">Retour</a>
+        </div>
+        <table class="table">
+            <tr>
+                <th>Nom</th>
+                <th>Sortie le</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td class="title">{{ product.title }}</td>
+                <td>{{ product.releaseOn|date }}</td>
+                <td>Description: {{ product.details }}</td>
+            </tr>
 
-    <table class="table">
-        <tr>
-            <th>Nom</th>
-            <th>Sortie le</th>
-        </tr>
-        <tr>
-            <td>{{ product.title }}</td>
-            <td>{{ product.releaseOn|date }}</td>
+        </table>
+        <div class="row">
+            <div><img width="600" src="\uploads\brochures\{{ product.pics }}"/></div>
+        </div>
+        {% if is_granted('ROLE_USER') %}
+                <div class="row">
+                    <p class="col-sm">Auteur de l'annonce: {{ app.user.firstname }} {{ app.user.lastname   }}</p>
 
-        </tr>
-    </table>
+                    <p class="col-sm">Coordonnées:  {{ app.user.mail }}</p>
+                </div>
+        {% endif %}
+
+    </div>
 {% endblock %}
