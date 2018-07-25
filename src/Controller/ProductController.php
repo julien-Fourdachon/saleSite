@@ -12,8 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\Form\ProductType;
 use App\Service\FileUploader;
-
-
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 
 class ProductController extends Controller
@@ -66,7 +65,6 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $pro = $product->getUser();
-        dump ($pro);
         return $this->render ("product/show.html.twig", ["product" => $product]);
 
     }
@@ -75,7 +73,7 @@ class ProductController extends Controller
      * @Route("/product/update/{product}", name="product.update")
      */
 
-    public function update(Product $product, EntityManagerInterface $em, Request $request,  FileUploader $fileUploader)
+     public function update(Product $product, EntityManagerInterface $em, Request $request,  FileUploader $fileUploader)
     {
 
         $form = $this->createForm (ProductType::class, $product)
@@ -93,6 +91,11 @@ class ProductController extends Controller
             return $this->redirectToRoute ("product.all");
         }
 
+        if(!$this->isGranted ('view', $product)) {
+            $this->addFlash ('notice','hophophop');
+            return $this->redirectToRoute ("product.all");
+
+        }
         return $this->render("/product/update.html.twig",["form" => $form->createView ()]) ;
 
     }
@@ -109,6 +112,22 @@ class ProductController extends Controller
         $em->flush ();
         return $this->redirectToRoute ("product.all");
     }
+
+
+    /**
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @Route("/moderate/{product}", name="moderate")
+     */
+    public function moderator(AuthorizationCheckerInterface $authorizationChecker, Product $product, EntityManagerInterface $em) {
+        if ($authorizationChecker->isGranted ('ROLE_ADMIN')){
+            $product->setAllowed (false);
+            $em->flush ();
+        }
+        dump($product);
+        return $this->redirectToRoute ("product.all");
+    }
+
+
 
 
 

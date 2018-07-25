@@ -5,6 +5,7 @@
             <a class="col-sm" href="{{ url("product.add") }}">Ajouter une annonce</a>
             <a class="col-sm" href={{ path('login') }}>Se connecter</a>
             <a class="col-sm" href={{ path('signin') }}>S'inscrire</a>
+            <a class="col-sm" href={{ path('search') }}>Rechercher</a>
             <a class="col-sm" href={{ path('logout') }}>Se déconnecter</a>
         </div>
         <table class="table">
@@ -15,25 +16,32 @@
                 <th>Action</th>
             </tr>
             {% for product in products %}
+                {% if product.allowed %}
                 <tr>
                     <td><img width="150" src="\uploads\brochures\{{ product.pics }}"/></td>
                     <td>{{ product.title }}</td>
                     <td>{{ product.releaseOn|date }}</td>
                     <td>
-                        <a onclick="return confirm('Confirmez vous la suppression?');"
-                           href="{{ url("product.delete", {"product":product.id}) }}">Supprimer</a>
-                        <br/>
                         <a onclick="return confrim('Voulez vous voir ce produit?');"
                            href="{{ url("product.show", {"product": product.id}) }}">Voir ce produit</a>
                         <br/>
-                        <a onclick="return confrim('Vouez vous modifier ce produit?');"
-                           href="{{ url("product.update", {"product": product.id}) }}">Modifier ce produit</a>
+                        {% if is_granted ('view', product) %}
+                            <a onclick="return confrim('Vouez vous modifier ce produit?');"
+                               href="{{ url("product.update", {"product": product.id}) }}">Modifier ce produit</a>
+                            <br/>
+                            <a onclick="return confirm('Confirmez vous la suppression?');"
+                               href="{{ url("product.delete", {"product":product.id}) }}">Supprimer</a>
+                        {% endif %}
+                        {% if is_granted ('ROLE_ADMIN') %}
+                            <br/>
+                        <a href="{{ url("moderate", {"product":product.id}) }}">Modérer</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="3">No content available</td>
                 </tr>
+                {% endif %}
             {% endfor %}
         </table>
     </div>

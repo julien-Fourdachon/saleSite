@@ -42,7 +42,6 @@ class Product
     private $pics;
 
 
-
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -70,6 +69,15 @@ class Product
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $allowed = true;
+
+    public function isPrivate($private)
+    {
+        return $private = true;
+    }
 
     public function getId()
     {
@@ -137,7 +145,6 @@ class Product
     }
 
 
-
     public function getDetails(): ?string
     {
         return $this->details;
@@ -199,4 +206,16 @@ class Product
         return $this;
     }
 
-  }
+    public function getAllowed(): ?bool
+    {
+        return $this->allowed;
+    }
+
+    public function setAllowed(bool $allowed): self
+    {
+        $this->allowed = $allowed;
+
+        return $this;
+    }
+
+}

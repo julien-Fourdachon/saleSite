@@ -18,7 +18,7 @@ class SecurityController extends Controller
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-dump ($error);
+
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -32,7 +32,7 @@ dump ($error);
      * @Route("/logout", name="logout")
      */
     public function logout(){
-
+        return $this->redirectToRoute ('product.all');
     }
 }
 

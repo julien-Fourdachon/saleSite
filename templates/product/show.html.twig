@@ -2,7 +2,9 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <a class="col-sm" href={{ path('logout') }}>Logout</a>
+            {% if is_granted('ROLE_USER') %}
+            <a class="col-sm" href={{ path('logout') }}>Se déconecter</a>
+            {% endif %}
             <a class="col-sm" href="{{ url("product.all") }}">Retour</a>
         </div>
         <table class="table">
@@ -23,10 +25,12 @@
         </div>
         {% if is_granted('ROLE_USER') %}
                 <div class="row">
-                    <p class="col-sm">Auteur de l'annonce: {{ app.user.firstname }} {{ app.user.lastname   }}</p>
+                    <p class="col-sm">Auteur de l'annonce: {{ product.user.firstname }} {{ product.user.lastname  }}</p>
 
-                    <p class="col-sm">Coordonnées:  {{ app.user.mail }}</p>
+                    <p class="col-sm">Coordonnées:  {{ product.user.mail }}</p>
                 </div>
+        {% else %}
+            <div>Pour voir les coordonnées de l'annonceur, veuilllez vous connecter ou créer un compte!</div>
         {% endif %}
 
     </div>
