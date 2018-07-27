@@ -13,6 +13,8 @@
                 <th>Photo</th>
                 <th>Nom</th>
                 <th>Sortie le</th>
+                <th>Region</th>
+                <th>Catégorie</th>
                 <th>Action</th>
             </tr>
             {% for product in products %}
@@ -21,11 +23,14 @@
                     <td><img width="150" src="\uploads\brochures\{{ product.pics }}"/></td>
                     <td>{{ product.title }}</td>
                     <td>{{ product.releaseOn|date }}</td>
+                    <td>{{ product.region.region }}</td>
+                    <td>{{ product.category.categories }}</td>
+                    <td>{{ product.releaseOn|date }}</td>
                     <td>
                         <a onclick="return confrim('Voulez vous voir ce produit?');"
                            href="{{ url("product.show", {"product": product.id}) }}">Voir ce produit</a>
                         <br/>
-                        {% if is_granted ('view', product) %}
+                        {% if is_granted ('edit', product) %}
                             <a onclick="return confrim('Vouez vous modifier ce produit?');"
                                href="{{ url("product.update", {"product": product.id}) }}">Modifier ce produit</a>
                             <br/>

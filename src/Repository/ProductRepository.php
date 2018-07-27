@@ -47,4 +47,22 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function search($title)
+    {
+
+
+        $qb = $this->createQueryBuilder ('p')
+            ->andWhere ('p.title LIKE :title')
+            ->setParameter ('title', "%".$title."%")
+//            ->andWhere ('p.region LIKE :region')
+//            ->setParameter ('region', "%".$product->getRegion () ()."%")
+//            ->andWhere ('p.category LIKE :category')
+//            ->setParameter ('category', "%".$product->getCategory () ()."%")
+            ->orderBy ('p.title', 'ASC')
+            ->getQuery ();
+        dump($qb);
+
+        return $qb->execute ();
+    }
 }

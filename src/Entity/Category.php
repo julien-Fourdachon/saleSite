@@ -53,6 +53,7 @@ class Category
     public function __construct()
     {
         $this->newProduct = new ArrayCollection();
+
     }
 
 
@@ -105,6 +106,5 @@ class Category
 
         return $this;
     }
-
 
 }

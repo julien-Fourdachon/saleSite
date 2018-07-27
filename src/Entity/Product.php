@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
 class Product
@@ -58,6 +60,7 @@ class Product
      */
     private $product;
 
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Region", inversedBy="products")
      */
@@ -73,6 +76,11 @@ class Product
      * @ORM\Column(type="boolean")
      */
     private $allowed = true;
+
+    /*
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $search;
 
     public function isPrivate($private)
     {
@@ -214,6 +222,18 @@ class Product
     public function setAllowed(bool $allowed): self
     {
         $this->allowed = $allowed;
+
+        return $this;
+    }
+
+    public function getSearch(): ?string
+    {
+        return $this->search;
+    }
+
+    public function setSearch(?string $search): self
+    {
+        $this->search = $search;
 
         return $this;
     }
